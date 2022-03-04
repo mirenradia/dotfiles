@@ -1,0 +1,51 @@
+[user]
+	name = Miren Radia
+    email = miren_radia@yahoo.co.uk
+{{- if .myubuntu }}
+    signingkey = EAE3A2BF653705F3
+[commit]
+    gpgsign = true
+{{- end }}
+[confidential]
+	helper = cache
+[credential]
+	helper = cache --timeout=3600
+[push]
+	default = simple
+[clangFormat]
+	binary = clang-format
+[pager]
+{{- if .myubuntu }}
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+{{- end }}
+	branch = false
+	log = true
+    stash = false
+{{- if .myubuntu }}
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    syntax-theme = Monokai Extended
+    line-numbers = true
+    #side-by-side = true
+    navigate = true
+
+[interactive]
+    diffFilter = delta --color-only
+{{- end }}
+[alias]
+	slog = !git --no-pager log --pretty=reference -n 10
+	llog = !git --no-pager log --abbrev-commit -n 1
+	sdiff = -c delta.side-by-side=true diff
+[pull]
+	ff = only
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[core]
+	excludesfile = {{ .chezmoi.homeDir }}/.config/git/ignore

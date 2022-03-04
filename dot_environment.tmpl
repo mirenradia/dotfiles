@@ -1,0 +1,27 @@
+# Add ~/bin and ~/.local/bin to path
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+{{ if eq .chezmoi.osRelease.id "ubuntu" }}
+# Add snap to path
+export PATH=$PATH:/snap/bin
+{{- end }}
+
+# environment variables/aliases for Chombo/GRChombo
+{{- if .myubuntu }}
+export CHOMBO_HOME=$HOME/NR/Chombo/lib
+
+# environment variable for PETSc compilation
+export CPATH=$CPATH:/usr/include/petsc
+
+# PATH variable for ParaView/VisIt
+#export PATH=$PATH:/opt/ParaView-5.6.0-MPI-Linux-64bit/bin/
+export PATH=$PATH:/usr/local/visit/bin/
+
+# PATH variable for Intel Implicit SPMD Program Compiler (ispc)
+export PATH=$PATH:$HOME/RSE/ispc-v1.16.1-linux/bin/
+
+# Set default number of OpenMP threads to 2
+export OMP_NUM_THREADS=2
+
+# Use bup with experimental python 3 support
+export BUP_ALLOW_UNEXPECTED_PYTHON_VERSION=true
+{{- end }}
