@@ -5,3 +5,7 @@ sudo apt install powerline powerline-gitstatus python3-powerline
 {{ else }}
 python3 -m pip install --user powerline-status powerline-gitstatus
 {{ end }}
+
+POWERLINE_LOCATION=$(python3 -m pip show powerline-status 2>/dev/null | grep "Location:" | cut -f2 -d" ")
+
+echo "export POWERLINE_LOCATION=$POWERLINE_LOCATION" > ~/.powerline_location
