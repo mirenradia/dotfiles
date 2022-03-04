@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+{{ if .myubuntu }}
+sudo apt install powerline powerline-gitstatus python3-powerline
+{{ else }}
+python3 -m pip install --user powerline-status powerline-gitstatus
+{{ end }}
