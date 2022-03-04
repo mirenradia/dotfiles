@@ -1,7 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 {{ if .usezsh }}
 if ! [[ -e "$HOME/.oh-my-zsh" ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
+if ! [[ -e "$ZSH_CUSTOM/themes/powerlevel10k" ]]; then
+    git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 fi
 {{ end }}
