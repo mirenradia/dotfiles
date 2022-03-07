@@ -1,0 +1,39 @@
+# Common system independent things for .bashrc
+# Source this in the actual .bashrc
+
+# Set environment variables
+source ~/.env
+if [ -f ~/.env_local ]; then
+    source ~/.env_local
+fi
+
+# Aliases
+source ~/.aliases
+
+# Powerline
+source ~/.powerline_location
+if [[ $(hostname) == "login"* ]]; then
+    if [ -f `which powerline-daemon` ]; then
+        powerline-daemon -q
+        POWERLINE_BASH_CONTINUATION=1
+        POWERLINE_BASH_SELECT=1
+        source $POWERLINE_LOCATION/powerline/bindings/bash/powerline.sh
+    fi
+fi
+
+# restart functions
+source ~/restart_functions.sh
+
+# Tmux aliases
+source ~/.tmux_aliases
+{{ if .hasslurm }}
+# SLURM aliases
+source ~/.slurm_aliases
+{{ end }}
+# Make ls colors nice
+eval `dircolors ~/.dircolors`
+
+# Chezmoi completions
+if [ -f ~/.chezmoi_bash_completions ]; then
+    source ~/.chezmoi_bash_completions
+fi
