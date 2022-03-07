@@ -1,3 +1,7 @@
+{{- if .usezsh -}}
+# Set SHELL to zsh if not set already
+$(echo $SHELL | grep zsh) || export SHELL=$(which zsh)
+{{ end}}
 # Add ~/bin and ~/.local/bin to path
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
