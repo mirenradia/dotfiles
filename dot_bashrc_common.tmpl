@@ -21,12 +21,12 @@ if [[ $(hostname) == "login"* ]]; then
     fi
 fi
 
-# restart functions
-source ~/restart_functions.sh
-
 # Tmux aliases
 source ~/.tmux_aliases
 {{ if .hasslurm }}
+# SLURM restart functions
+source ~/.slurm_restart_functions
+
 # SLURM aliases
 source ~/.slurm_aliases
 {{ end }}

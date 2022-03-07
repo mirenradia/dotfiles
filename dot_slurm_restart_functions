@@ -1,0 +1,207 @@
+#!/bin/bash
+
+# This function prints the jobid of the currently running job with the specified job name
+function get_prev_job_id () {
+if [ $# != 1 ]; then
+	echo "usage: get_prev_job_id <job_name>";
+	return 1
+fi
+JOB_NAME=$1;
+NUM_MATCHES=$(squeue -u $USER -n $JOB_NAME -o "%.18i %.30j" | grep -c $JOB_NAME);
+if [ $NUM_MATCHES != 1 ]; then
+	echo "error: there is not exactly one job with the specified name";
+	return 2
+fi
+JOB_STRING=$(squeue -u $USER -n $JOB_NAME -o "%.18i %.50j" | grep $JOB_NAME);
+JOB_ID=$(echo $JOB_STRING | cut -c1-8);
+echo $JOB_ID
+}
+
+# This function prints the filename of the last checkpoint file with the 
+# specified file prefix, hdf5 subpath and output path.
+function get_last_checkpoint_filename () {
+if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+	echo "usage: get_last_checkpoint_filename <file_prefix> [<hdf5_subpath>] [<output_path>]";
+	return 1
+fi
+FILE_PREFIX=$1;
+
+unset HDF5_SUBPATH
+if [ $# -gt 1 ]; then
+    HDF5_SUBPATH=$2
+    if [ "$HDF5_SUBPATH" != "*/" ]; then
+        HDF5_SUBPATH="${HDF5_SUBPATH}/"
+    fi
+fi
+
+unset OUTPUT_PATH
+if [ $# -gt 2 ]; then
+    OUTPUT_PATH=$3
+    if [ "$OUTPUT_PATH" != "*/" ]; then
+        OUTPUT_PATH="${OUTPUT_PATH}/"
+    fi
+fi
+
+LAST_CHECKPOINT=$(ls ${OUTPUT_PATH}${HDF5_SUBPATH}${FILE_PREFIX}*.hdf5 | sort -V | tail -n 1 | sed "s|.*${FILE_PREFIX}|${FILE_PREFIX}|g");
+
+
+echo $LAST_CHECKPOINT
+}
+
+# This function prints the checkpoint prefix of a params file
+#function get_checkpoint_prefix () {
+#if [ $# != 1 ]; then
+#    echo "usage: get_file_prefix <params_file>";
+#    return 1
+#fi
+#
+#PARAMS_FILE=$1;
+#
+## Remove leading whitespace with sed
+#CHK_PREFIX=$(grep 'chk_prefix' $PARAMS_FILE | cut -d '=' -f2);
+#
+#echo $CHK_PREFIX
+#}
+
+# This function gets a parameter from a params file
+function get_param () {
+if [ $# != 2 ]; then
+    echo "usage: get_param <params_file> <parameter_name>";
+    return 1
+fi
+
+PARAMS_FILE=$1;
+PARAM=$2;
+
+# Remove leading whitespace with sed
+PARAM_VALUE=$(grep "^[[:space:]]*${PARAM}[[:space:]]*=" $PARAMS_FILE | cut -d '=' -f2 | sed 's:#.*$::g' | sed 's/^[[:space:]]*//');
+
+echo $PARAM_VALUE
+}
+
+
+# This function comments out the restart file if the hdf5 file in the directory doesn't exist
+function check_restart_file_exists() {
+if [ $# != 1 ]; then
+    echo "usage: check_restart_file <params_file>";
+    return 1
+fi
+
+PARAMS_FILE=$1;
+
+RESTART_LINE=$(grep 'restart_file' $PARAMS_FILE);
+
+if [[ "${RESTART_LINE:0:1}" == "#" ]]; then
+    echo "restart_file commented out"
+    return 0
+fi
+
+RESTART_FILE=$(echo $RESTART_LINE | cut -d '=' -f2 | sed 's/^ *//g');
+echo "restart_file = $RESTART_FILE"
+if [[ -f "$RESTART_FILE" ]]; then
+    echo "restart file exists"
+    return 0
+fi
+
+sed -i "s/restart_file/#restart_file/g" $PARAMS_FILE
+echo "commented out restart_file"
+
+}
+
+# This function updates the restart_file parameter in the specified params file with
+# the last checkpoint starting with the specified file prefix
+#function update_params_file () {
+#if [ $# != 2 ]; then
+#	echo "usage: update_params_file <params_file> <file_prefix>";
+#	return 1
+#fi
+#PARAMS_FILE=$1;
+#if ! grep -q 'restart_file' $PARAMS_FILE; then
+#	echo "error: params file does not have restart_file parameter";
+#	return 1
+#fi
+#LAST_CHECKPOINT=$(get_last_checkpoint_filename $2);
+#sed -i "s/#*restart_file =.*$/restart_file = $LAST_CHECKPOINT/g" $1
+#}
+
+# This function increments the pout subpath by 1
+function update_pout_subpath () {
+if [ $# != 1 ]; then
+    echo "usage: update_pout_subpath <params_file>";
+    return 1
+fi
+
+PARAMS_FILE=$1;
+POUT_SUBPATH_PREFIX=$(get_param $PARAMS_FILE pout_subpath | sed 's/_[0-9]*//g')
+LAST_POUT_SUBPATH=$(ls -d ${POUT_SUBPATH_PREFIX}* | sort -V | tail -n 1)
+LAST_POUT_NUMBER=$(echo $LAST_POUT_SUBPATH | sed "s|${POUT_SUBPATH_PREFIX}_*||")
+
+if [ -n "LAST_POUT_NUMBER" ]; then
+    NEW_POUT_NUMBER=$(( 10#$LAST_POUT_NUMBER + 1 ))
+else
+    NEW_POUT_NUMBER=1
+fi
+
+sed -i "s/pout_subpath =.*$/pout_subpath = ${POUT_SUBPATH_PREFIX}_${NEW_POUT_NUMBER}/g" $PARAMS_FILE
+}
+
+# This function updates the restart_file parameter in the specified params file with
+# the last checkpoint with prefix the same as chk_prefix in the params file
+function update_restart_file () {
+if [ $# != 1 ]; then
+    echo "usage: update_restart_file <params_file>";
+    return 1
+fi
+
+PARAMS_FILE=$1;
+
+if ! grep -q 'restart_file' $PARAMS_FILE; then
+	echo "error: params file does not have restart_file parameter";
+	return 1
+fi
+
+CHK_PREFIX=$(get_param $PARAMS_FILE chk_prefix);
+HDF5_SUBPATH=$(get_param $PARAMS_FILE hdf5_subpath);
+OUTPUT_PATH=$(get_param $PARAMS_FILE output_path);
+
+LAST_CHECKPOINT=$(get_last_checkpoint_filename $CHK_PREFIX $HDF5_SUBPATH $OUTPUT_PATH);
+sed -i "s/#*restart_file =.*$/restart_file = $LAST_CHECKPOINT/g" $1
+}
+
+# This function updates the restart file and pout_subpath
+function update_params_file () {
+if [ $# != 1 ]; then
+    echo "usage update_params_file <params_file>"
+    return 1;
+fi
+update_restart_file $1
+update_pout_subpath $1
+}
+
+# This function updates the dependency in the specified jobscript
+function update_jobscript () {
+if [ $# != 2 ]; then
+	echo "usage: update_jobscript <jobscript> <job_name>";
+	return 1
+fi
+JOB_NAME=$2;
+JOBSCRIPT=$1;
+PREV_JOB_ID=$(get_prev_job_id $JOB_NAME);
+sed -i "s/#SBATCH --dependency=afterany:.*$/#SBATCH --dependency=afterany:${PREV_JOB_ID}/g" $JOBSCRIPT
+}
+
+# This function removes duplicate data from an ASCII file with data from each timestep separate lines
+#function remove_duplicate_data () {
+#if [ $# != 1 ]; then
+#	echo "usage: remove_duplicate_data <data_file>";
+#	return 1
+#fi
+#DATA_FILE=$1
+## first copy comment lines to temporary file
+#grep "^#" $DATA_FILE > ${DATA_FILE}.temp
+## now sort non-comment lines and append to temporary file
+#grep -v "^#" $DATA_FILE | sort -k1 -g -u >> ${DATA_FILE}.temp
+## remove original file and rename temporary file to original file
+#rm -f $DATA_FILE
+#mv ${DATA_FILE}.temp $DATA_FILE
+#}

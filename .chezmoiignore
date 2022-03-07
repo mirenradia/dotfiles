@@ -8,5 +8,5 @@ install_ohmyzsh.sh
 {{- end }}
 
 {{- if not .hasslurm }}
-.slurm_aliases
+.slurm_*
 {{- end }}
