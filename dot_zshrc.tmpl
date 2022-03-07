@@ -141,7 +141,8 @@ fpath+=(~/.zshcompletions)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Modify environment variables
-source ~/.environment
+source ~/.env
+[[ ! -f ~/.env_local ]] || source ~/.env_local
 
 # Set aliases
 source ~/.aliases
