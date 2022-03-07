@@ -66,11 +66,11 @@ set backspace=indent,eol,start
 
 " Always set tab and indentation to 4 spaces rather than hard tabs
 " except for makefiles
-let _curfile = expand("%:t")
-if _curfile =~ "Makefile" || _curfile =~ "makefile" || _curfile =~ ".*\.mk"
-set noexpandtab
-else
-set expandtab
-set tabstop=4
-set shiftwidth=4
-endif
+"let _curfile = expand("%:t")
+"if _curfile =~ "Makefile" || _curfile =~ "makefile" || _curfile =~ ".*\.mk"
+"set noexpandtab
+"else
+"set expandtab
+"set tabstop=4
+"set shiftwidth=4
+"endif
