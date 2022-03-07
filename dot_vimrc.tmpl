@@ -6,7 +6,9 @@ python3 del powerline_setup
 set rtp+=$POWERLINE_LOCATION/powerline/bindings/vim
 {{ end }}
 set laststatus=2
-set termguicolors
+if has("termguicolors")
+  set termguicolors
+endif
 
 set number relativenumber
 augroup numbertoggle
