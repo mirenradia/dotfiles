@@ -12,7 +12,7 @@ source ~/.aliases
 
 # Powerline
 source ~/.powerline_location
-if [[ $(hostname) == "login"* ]]; then
+if [[ $(hostname) == *"{{ .powerlinehostname }}"* ]]; then
     if [ -f `which powerline-daemon` ]; then
         powerline-daemon -q
         POWERLINE_BASH_CONTINUATION=1
