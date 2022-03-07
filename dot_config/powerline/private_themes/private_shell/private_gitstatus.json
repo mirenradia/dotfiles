@@ -6,7 +6,10 @@
 			},
 			{
 				"function": "powerline.segments.common.net.hostname",
-				"priority": 30
+				"priority": 30,
+				"args" : {
+					"exclude_domain": true
+				}
 			},
 			{
 				"function": "powerline.segments.common.env.user",
