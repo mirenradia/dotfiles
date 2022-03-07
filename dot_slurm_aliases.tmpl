@@ -1,0 +1,15 @@
+# interactive bash session
+function sint() {
+    srun --pty --qos=INTR "$@" bash
+}
+
+# alias for various SLURM commands
+alias sjob="scontrol show job"
+alias sq="squeue -o \"%.9i %.12j %.8u %.12a %.2t %.5Q %.10M %.10l %.5D %R\""
+alias sqme="squeue -u ${USER} -o \"%.9i %.16j %.12a %.2t %.5Q %.10M %.10l %.5D %R\""
+{{- if .csd3 }}
+alias siknl="sinfo -p knl"
+alias siskl="sinfo -p skylake"
+alias siicl="sinfo -p icelake"
+alias siccl="sinfo -p cclake"
+{{- end }}
