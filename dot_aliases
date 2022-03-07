@@ -7,6 +7,9 @@ alias lt='ll -t'
 # exa aliases
 alias el='exa -alF'
 
+# Make less display colours from ANSI colour escape sequences
+alias less='less -R'
+
 # Alias xdg-open to open
 alias open='xdg-open'
 
