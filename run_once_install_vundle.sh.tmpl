@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if ! [[ -e ~/.vim/bundle/Vundle.vim ]]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+fi
+
+# Hash the .vimrc file so that we can automatically install any new plugins
+# .vimrc hash: {{ include "dot_vimrc.tmpl" | sha256sum }}
+vim +PluginInstall +qall
