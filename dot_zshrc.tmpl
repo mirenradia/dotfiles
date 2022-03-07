@@ -82,6 +82,12 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(gitfast ssh-agent)
 
+# Don't try and add any SSH keys to the ssh-agent at startup
+zstyle :omz:plugins:ssh-agent lazy yes
+
+# Allow SSH agent forwarding
+zstyle :omz:plugins:ssh-agent agent-forwarding yes
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
