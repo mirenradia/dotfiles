@@ -7,6 +7,8 @@ set rtp+=$POWERLINE_LOCATION/powerline/bindings/vim
 {{ end }}
 set laststatus=2
 if has("termguicolors")
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
 
@@ -55,8 +57,6 @@ augroup grchombo_params
   autocmd BufNewFile,BufRead *params*.txt set syntax=sh
 augroup END
 
-"let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " Set solarized theme
 set background=dark
 colorscheme solarized8
