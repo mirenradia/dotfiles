@@ -1,6 +1,10 @@
 # interactive bash session
 function sint() {
+{{- if .csd3 }}
     srun --pty --qos=INTR "$@" bash
+{{- else }}
+    srun --pty "$@" bash
+{{- end }}
 }
 
 # alias for various SLURM commands
