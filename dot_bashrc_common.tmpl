@@ -37,3 +37,8 @@ eval `dircolors ~/.dircolors`
 if [ -f ~/.chezmoi_bash_completions ]; then
     source ~/.chezmoi_bash_completions
 fi
+
+# Bash shell options
+shopt | grep -q '^direxpand\b' && shopt -s direxpand
+
+# vim: set syntax=sh:
