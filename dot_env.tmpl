@@ -4,3 +4,8 @@ export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 # Set default editor to vim
 export EDITOR=vim
 export VISUAL=vim
+
+# If bat is available set it as the man pager
+if `which bat &> /dev/null`; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
