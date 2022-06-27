@@ -1,0 +1,7 @@
+[".bash-preexec"]
+    type = "git-repo"
+    url = "https://github.com/rcaloras/bash-preexec.git"
+    exact = true
+    refreshPeriod = "168h"
+    stripComponents = 1
+

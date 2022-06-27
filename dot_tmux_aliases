@@ -1,7 +1,11 @@
-# update DISPLAY environment variable in tmux for X forwarding
-function update_display() {
-	export $(tmux showenv DISPLAY)
+# update environment variables from attaching shell
+if [ -n "$TMUX" ]; then
+function update_env() {
+	export $(tmux showenv DISPLAY);
+	export $(tmux showenv SSH_AUTH_SOCK);
 }
 
-# Update DISPLAY before using gnuplot
-alias tgnuplot="update_display; gnuplot"
+function preexec() {
+	update_env
+}
+fi
