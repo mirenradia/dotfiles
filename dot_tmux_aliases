@@ -1,11 +1,11 @@
 # update environment variables from attaching shell
-if [ -n "$TMUX" ]; then
 function update_env() {
+if [ -n "$TMUX" ]; then
 	export $(tmux showenv DISPLAY);
 	export $(tmux showenv SSH_AUTH_SOCK);
+fi
 }
 
 function preexec() {
 	update_env
 }
-fi
