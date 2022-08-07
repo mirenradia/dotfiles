@@ -8,4 +8,7 @@ export VISUAL=vim
 # If bat is available set it as the man pager
 if `which bat &> /dev/null`; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+{{- if .myfedora }}
+  export MANROFFOPT="-c"
+{{- end }}
 fi
