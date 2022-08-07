@@ -2,6 +2,9 @@
 
 {{ if .myubuntu }}
 sudo apt install powerline powerline-gitstatus python3-powerline
+{{ else if .myfedora }}
+sudo dnf install python3-pip powerline tmux-powerline vim-powerline
+python3 -m pip install --user powerline-gitstatus
 {{ else }}
 python3 -m pip install --user powerline-status powerline-gitstatus
 {{ end }}

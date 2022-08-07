@@ -1,6 +1,12 @@
 #!/usr/bin/env zsh
 
 {{ if .usezsh }}
+{{- if .myubuntu -}}
+sudo apt install zsh
+{{- else if .myfedora -}}
+sudo dnf install zsh
+{{- end }}
+
 if ! [[ -e "$HOME/.oh-my-zsh" ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi

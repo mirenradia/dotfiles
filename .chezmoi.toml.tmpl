@@ -1,8 +1,10 @@
 {{- $myubuntu := promptString "myubuntu" -}}
+{{- $myfedora := promptString "myfedora" -}}
 {{- $usezsh := promptString "usezsh" -}}
 {{- $hasslurm := promptString "hasslurm" -}}
 [data]
     myubuntu = {{ $myubuntu }}
+    myfedora = {{ $myfedora }}
     usezsh = {{ $usezsh }}
     hasslurm = {{ $hasslurm }}
     csd3 = false

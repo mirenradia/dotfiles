@@ -1,7 +1,7 @@
 [user]
 	name = Miren Radia
 	email = miren_radia@yahoo.co.uk
-{{- if or .myubuntu .csd3 }}
+{{- if or .myubuntu .csd3 .myfedora }}
 	signingkey = EAE3A2BF653705F3
 [commit]
 	gpgsign = true
@@ -15,7 +15,7 @@
 [clangFormat]
 	binary = clang-format
 [pager]
-{{- if .myubuntu }}
+{{- if or .myubuntu .myfedora }}
 	diff = delta
 	log = delta
 	reflog = delta
@@ -24,7 +24,7 @@
 	branch = false
 	log = true
 	stash = false
-{{- if .myubuntu }}
+{{- if or .myubuntu .myfedora }}
 [delta]
 	plus-style = "syntax #012800"
 	minus-style = "syntax #340001"
