@@ -88,6 +88,10 @@ zstyle :omz:plugins:ssh-agent lazy yes
 # Allow SSH agent forwarding
 zstyle :omz:plugins:ssh-agent agent-forwarding yes
 
+if [ `which ksshaskpass &> /dev/null` ]; then
+  zstyle :omz:plugins:ssh-agent helper ksshaskpass
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
