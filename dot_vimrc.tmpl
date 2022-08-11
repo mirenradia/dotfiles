@@ -68,7 +68,15 @@ augroup END
 
 " Set solarized theme
 set background=dark
-colorscheme solarized8
+try
+  colorscheme solarized8
+  catch
+  try
+    colorscheme delek
+    catch
+  endtry
+endtry
+
 
 " Allow backspacing in vim
 set backspace=indent,eol,start
