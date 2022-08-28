@@ -2,6 +2,7 @@ README.md
 LICENSE
 
 {{- if not .usezsh }}
+.zprofile
 .zshrc
 .p10k.zsh
 install_ohmyzsh.sh

@@ -1,0 +1,2 @@
+# Run Anacron as my user
+anacron -t $HOME/.local/etc/anacrontab -S $HOME/.var/spool/anacron
