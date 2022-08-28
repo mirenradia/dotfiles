@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+#period in days   delay in minutes   job-identifier   command
+1  10  cron.mine    run-parts ~/.local/etc/cron.daily/

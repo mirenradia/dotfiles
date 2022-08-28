@@ -11,3 +11,7 @@ install_ohmyzsh.sh
 {{- if not .hasslurm }}
 .slurm_*
 {{- end }}
+
+{{- if not (or .myfedora .myubuntu) }}
+.local/etc/
+{{- end }}
