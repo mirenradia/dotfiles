@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+module load mpi/mpich-x86_64
+"$@"
