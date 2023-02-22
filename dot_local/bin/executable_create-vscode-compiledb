@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+usage () {
+  COMMAND=$(basename "$0")
+  echo "Usage: $COMMAND [BUILD COMMAND]"
+}
+
+if [[ $# -lt 1 ]]; then
+  usage
+  exit 2
+fi
+
+# Assume we are either in a git repository or at the base directory of a
+# project
+if [[ git rev-parse --is-inside-work-tree > /dev/null 2>&1 ]]; then
+  VSCODE_DIR=$(git root)/.vscode
+else
+  VSCODE_DIR=${PWD}/.vscode
+fi
+
+# Now create compile_commands.json in current location
+create-compiledb "$@"
+
+mv compile_commands.json $VSCODE_DIR/

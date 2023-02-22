@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# This script uses Bear to create a Clang compilation database. After it is
+# created, compdb is used to update the database
+
+usage () {
+  COMMAND=$(basename "$0")
+  echo "Usage: $COMMAND [BUILD COMMAND]"
+}
+
+if [[ ! -x "$(command -v bear)" ]]; then
+  echo 'Error: Bear is not installed. See https://github.com/rizsotto/Bear for installation instructions.' >&2
+  exit 1
+fi
+
+if [[ ! -x "$(command -v compdb)" ]]; then
+  echo 'Error: compdb is not installed. Run:' >&2
+  echo 'python3 -m pip install compdb' >&2
+  echo 'to install.' >&2
+  exit 1
+fi
+
+if [[ $# -lt 1 ]]; then
+  usage
+  exit 2
+fi
+
+HASH=$(date +%s | sha256sum | base64 | head -c 8 ; echo)
+BEAR_OUTPUT_DIR="/tmp/bear_${HASH}"
+mkdir $BEAR_OUTPUT_DIR
+BEAR_OUTPUT="${BEAR_OUTPUT_DIR}/compile_commands.json"
+
+bear --output $BEAR_OUTPUT -- $@
+
+compdb -p ${BEAR_OUTPUT_DIR}/ list > compile_commands.json
+
+rm -rf $BEAR_OUTPUT_DIR
