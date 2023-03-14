@@ -22,3 +22,6 @@ alias apt-ilist='apt list --installed'
 
 # Alias for xclip so that it just uses the normal clipboard
 alias xclip="xclip -selection c"
+
+# Alias for opening Teams meetings in Teams for Linux
+alias teams-meeting='f() { xdg-open ${1//https:\/\/teams.microsoft.com/msteams:}; }; f'
