@@ -12,3 +12,8 @@ if `which bat &> /dev/null`; then
   export MANROFFOPT="-c"
 {{- end }}
 fi
+{{ if .myfedora }}
+# Install Ruby Gems to ~/gems
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"
+{{- end }}
