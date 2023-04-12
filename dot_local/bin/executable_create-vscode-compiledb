@@ -12,7 +12,7 @@ fi
 
 # Assume we are either in a git repository or at the base directory of a
 # project
-if [[ git rev-parse --is-inside-work-tree > /dev/null 2>&1 ]]; then
+if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
   VSCODE_DIR=$(git root)/.vscode
 else
   VSCODE_DIR=${PWD}/.vscode
