@@ -18,6 +18,8 @@ else
   VSCODE_DIR=${PWD}/.vscode
 fi
 
+mkdir -p $VSCODE_DIR
+
 # Now create compile_commands.json in current location
 create-compiledb "$@"
 
