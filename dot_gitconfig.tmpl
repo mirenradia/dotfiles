@@ -37,6 +37,9 @@
 	#side-by-side = true
 	navigate = true
 
+[diff]
+	colorMoved = default
+
 [interactive]
 	diffFilter = delta --color-only
 {{- end }}
@@ -54,5 +57,7 @@
 	clean = git-lfs clean -- %f
 [core]
 	excludesfile = {{ .chezmoi.homeDir }}/.config/git/ignore
+[fetch]
+	prune = true
 
 # vim:set syntax=gitconfig ts=4:
