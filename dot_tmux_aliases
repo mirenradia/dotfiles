@@ -1,11 +1,11 @@
 # update environment variables from attaching shell
 function update_env() {
 if [[ -n $TMUX ]]; then
-	display=$(tmux showenv DISPLAY);
+	display=$(tmux showenv | grep "^DISPLAY");
 	if [[ -n $display ]]; then
 		export $display
 	fi
-	ssh_auth_sock=$(tmux showenv SSH_AUTH_SOCK);
+	ssh_auth_sock=$(tmux showenv | grep "^SSH_AUTH_SOCK");
 	if [[ -n $ssh_auth_sock ]]; then
 		export $ssh_auth_sock
 	fi
