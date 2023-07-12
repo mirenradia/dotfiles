@@ -158,6 +158,9 @@ source ~/.powerline_location
 autoload bashcompinit
 bashcompinit
 source /usr/share/bash-completion/completions/pacstall
+{{- else if .myfedora }}
+LMOD_COMPLETIONS=$LMOD_PKG/init/lmod_bash_completions
+[[ -f $LMOD_COMPLETIONS ]] && source $LMOD_COMPLETIONS
 {{- end }}
 
 # Make ls colors nice
