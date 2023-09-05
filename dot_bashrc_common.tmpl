@@ -20,7 +20,12 @@ if [[ $(hostname) == *"{{ .powerlinehostname }}"* ]]; then
         powerline-daemon -q
         POWERLINE_BASH_CONTINUATION=1
         POWERLINE_BASH_SELECT=1
-        source $POWERLINE_LOCATION/powerline/bindings/bash/powerline.sh
+        PROMPT_COMMAND_READ_ONLY=$(readonly -p | egrep "declare -[[:lower:]]+ PROMPT_COMMAND=" 1> /dev/null; echo $?)
+        if [[ $PROMPT_COMMAND_READ_ONLY -eq 0 ]]; then
+            source $POWERLINE_BASH_BINDINGS_PATH/powerline-user.sh
+        else
+            source $POWERLINE_BASH_BINDINGS_PATH/powerline.sh
+        fi
     fi
 fi
 

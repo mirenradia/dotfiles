@@ -10,5 +10,16 @@ python3 -m pip install --user powerline-status powerline-gitstatus
 {{ end }}
 
 POWERLINE_LOCATION=$(python3 -m pip show powerline-status 2>/dev/null | grep "Location:" | cut -f2 -d" ")
+POWERLINE_BASH_BINDINGS_PATH=$POWERLINE_LOCATION/powerline/bindings/bash/
 
 echo "export POWERLINE_LOCATION=$POWERLINE_LOCATION" > ~/.powerline_location
+echo "export POWERLINE_BASH_BINDINGS_PATH=$POWERLINE_BASH_BINDINGS_PATH" >> ~/.powerline_location
+
+{{ if not (or .myubuntu .myfedora) }}
+# Test if PROMPT_COMMAND is readonly
+PROMPT_COMMAND_READ_ONLY=$(readonly -p | egrep "declare -[[:lower:]]+ PROMPT_COMMAND=" 1> /dev/null; echo $?)
+if [[ $PROMPT_COMMAND_READ_ONLY -eq 0 ]]; then
+    cp $POWERLINE_BASH_BINDINGS_PATH/powerline.sh $POWERLINE_BASH_BINDINGS_PATH/powerline-user.sh
+    sed -i 's/PROMPT_COMMAND/USER_PROMPT_COMMAND/g' $POWERLINE_BASH_BINDINGS_PATH/powerline-user.sh
+fi
+{{ end }}
