@@ -1,2 +1,7 @@
 # Run Anacron as my user
 anacron -t $HOME/.local/etc/anacrontab -S $HOME/.var/spool/anacron
+
+{{ if .myfedora -}}
+# Make GTK use XDG desktop portals
+export GTK_USE_PORTAL=1
+{{- end }}
