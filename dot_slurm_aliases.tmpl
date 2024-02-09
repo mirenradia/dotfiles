@@ -1,6 +1,9 @@
 # interactive bash session
 function sint() {
-    TMUX="" srun --pty {{ if .csd3 -}} --qos=INTR {{- end }} "$@" bash
+    TMUX="" srun --pty
+    {{- if .csd3 }} --qos=INTR
+    {{- else if eq ( .chezmoi.hostname | replaceAllRegex "-login[0-9]" "" ) "tursa" }} --qos=dev
+    {{- end }} "$@" bash
 }
 
 # alias for various SLURM commands
