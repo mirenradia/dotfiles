@@ -1,7 +1,10 @@
-{{- $myubuntu := promptString "myubuntu" -}}
-{{- $myfedora := promptString "myfedora" -}}
-{{- $usezsh := promptString "usezsh" -}}
-{{- $hasslurm := promptString "hasslurm" -}}
+{{- $myubuntu := promptBool "myubuntu" -}}
+{{- $myfedora := promptBool "myfedora" -}}
+{{- $usezsh := promptBool "usezsh" -}}
+{{- $hasslurm := promptBool "hasslurm" -}}
+encryption = "gpg"
+[gpg]
+    symmetric = true
 [data]
     myubuntu = {{ $myubuntu }}
     myfedora = {{ $myfedora }}
