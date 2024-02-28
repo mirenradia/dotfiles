@@ -1,9 +1,15 @@
 [user]
 	name = Miren Radia
 	email = miren_radia@yahoo.co.uk
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbylKoj80jwSdcznciHXjukOKGR6E+8gFJSpU6vXPrz miren_radia@yahoo.co.uk
+{{- if or .myubuntu .csd3 .myfedora }}
+{{- if or .myubuntu .myfedora }}
+	signingkey = EAE3A2BF653705F3
+{{- else if .csd3 }}
+	signingkey = A9EA055CDA1DE0DA
+{{- end }}
 [commit]
 	gpgsign = true
+{{- end }}
 [confidential]
 	helper = cache
 [credential]
@@ -56,7 +62,5 @@
 	prune = true
 [init]
     defaultBranch = main
-[gpg]
-	format = ssh
 
 # vim:set syntax=gitconfig ts=4:
