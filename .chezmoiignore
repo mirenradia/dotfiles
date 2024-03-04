@@ -14,6 +14,7 @@ install_ohmyzsh.sh
 
 {{- if not (or .myfedora .myubuntu) }}
 .local/etc/
+.ssh/config
 {{- end }}
 
 {{- if not .myfedora }}
