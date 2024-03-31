@@ -4,4 +4,7 @@ anacron -t $HOME/.local/etc/anacrontab -S $HOME/.var/spool/anacron
 {{ if .myfedora -}}
 # Make GTK use XDG desktop portals
 export GTK_USE_PORTAL=1
+
+# Prefer using SSH_ASKPASS
+export SSH_ASKPASS_REQUIRE=prefer
 {{- end }}
