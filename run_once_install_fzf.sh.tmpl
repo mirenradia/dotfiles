@@ -1,0 +1,10 @@
+#!/bin/bash
+
+{{- if .myfedora }}
+sudo dnf install fzf
+{{- else if .myubuntu }}
+sudo apt install fzf
+{{- else }}
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+{{- end }}
