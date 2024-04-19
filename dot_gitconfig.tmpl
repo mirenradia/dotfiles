@@ -3,7 +3,9 @@
 	email = miren_radia@yahoo.co.uk
 {{- if or .myubuntu .csd3 .myfedora }}
 {{- if or .myubuntu .myfedora }}
-	signingkey = EAE3A2BF653705F3
+	signingkey = ~/.ssh/id_ed25519.pub
+[gpg]
+	format = ssh
 {{- else if .csd3 }}
 	signingkey = A9EA055CDA1DE0DA
 {{- end }}
