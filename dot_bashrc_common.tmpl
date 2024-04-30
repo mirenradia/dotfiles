@@ -13,6 +13,9 @@ source ~/.bash-preexec/bash-preexec.sh
 # Aliases
 source ~/.aliases
 
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # Powerline
 source ~/.powerline_location
 if [[ $(hostname) == *"{{ .powerlinehostname }}"* ]]; then
