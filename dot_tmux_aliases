@@ -1,17 +1,21 @@
 # update environment variables from attaching shell
 function update_env() {
-if [[ -n $TMUX ]]; then
-	display=$(tmux showenv | grep "^DISPLAY");
-	if [[ -n $display ]]; then
-		export $display
-	fi
-	ssh_auth_sock=$(tmux showenv | grep "^SSH_AUTH_SOCK");
-	if [[ -n $ssh_auth_sock ]]; then
-		export $ssh_auth_sock
-	fi
-fi
+  # Check if tmux environment variable is set (i.e. are we in a tmux session)
+  [[ -n $TMUX ]] || return 0
+  # Check if tmux command is available (may have unloaded tmux module)
+  command -v tmux > /dev/null 2>&1 || return 0
+  # Check if the tmux directory is present
+  # We may have SSHed to another node and preserved the environment
+  TMUX_DIR=$(dirname $(echo $TMUX | cut -d',' -f1 -))
+  [[ -d $TMUX_DIR ]] || return 0
+
+  display=$(tmux showenv | grep "^DISPLAY");
+  [[ -n $display ]] && export $display
+
+  ssh_auth_sock=$(tmux showenv | grep "^SSH_AUTH_SOCK");
+  [[ -n $ssh_auth_sock ]] && export $ssh_auth_sock
 }
 
 function preexec() {
-	update_env
+  update_env
 }
