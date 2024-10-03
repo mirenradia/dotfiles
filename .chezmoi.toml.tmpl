@@ -2,6 +2,7 @@
 {{- $myfedora := promptBool "myfedora" -}}
 {{- $usezsh := promptBool "usezsh" -}}
 {{- $hasslurm := promptBool "hasslurm" -}}
+{{- $powerlinehostname := promptString "powerlinehostname" "" -}}
 encryption = "gpg"
 [gpg]
     symmetric = true
@@ -12,4 +13,4 @@ encryption = "gpg"
     usezsh = {{ $usezsh }}
     hasslurm = {{ $hasslurm }}
     csd3 = false
-    powerlinehostname = "login"
+    powerlinehostname = {{ $powerlinehostname | quote }}
