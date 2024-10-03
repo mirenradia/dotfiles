@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 
+USE_PIPX=0
 {{ if .myubuntu }}
 sudo apt install powerline powerline-gitstatus python3-powerline
 {{ else if .myfedora }}
 sudo dnf install python3-pip powerline tmux-powerline vim-powerline
 python3 -m pip install --user powerline-gitstatus
 {{ else }}
-python3 -m pip install --user powerline-status powerline-gitstatus
+USE_PIPX=1
+# Install pipx if we don't have it already
+command -v pipx > /dev/null || python3 -m pip install --user pipx
+pipx install powerline-status
+pipx inject powerline-status powerline-gitstatus
 {{ end }}
 
-POWERLINE_LOCATION=$(python3 -m pip show powerline-status 2>/dev/null | grep "Location:" | cut -f2 -d" ")
+if [[ "$USE_PIPX" == "0" ]]; then
+    POWERLINE_LOCATION=$(python3 -m pip show powerline-status 2>/dev/null | grep "Location:" | cut -f2 -d" ")
+else
+    PIPX_LOCAL_VENVS=$(pipx environment --value PIPX_LOCAL_VENVS)
+    POWERLINE_LOCATION=${PIPX_LOCAL_VENVS}/powerline-status
+fi
 POWERLINE_BASH_BINDINGS_PATH=$POWERLINE_LOCATION/powerline/bindings/bash/
 
 echo "export POWERLINE_LOCATION=$POWERLINE_LOCATION" > ~/.powerline_location
