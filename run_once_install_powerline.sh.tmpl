@@ -20,7 +20,7 @@ else
     PIPX_LOCAL_VENVS=$(pipx environment --value PIPX_LOCAL_VENVS)
     PIPX_PYTHON_VERSION=$(pipx list | grep -E "powerline-status.*Python" | awk '{print $NF}')
     PIPX_PYTHON_VERSION_MAJOR_MINOR=$(echo $PIPX_PYTHON_VERSION | cut -d'.' -f1,2)
-    POWERLINE_LOCATION=${PIPX_LOCAL_VENVS}/powerline-status/lib/python${PIPX_PYTHON_VERSION_MAJOR_MINOR}/site-packages/powerline
+    POWERLINE_LOCATION=${PIPX_LOCAL_VENVS}/powerline-status/lib/python${PIPX_PYTHON_VERSION_MAJOR_MINOR}/site-packages
 fi
 POWERLINE_BASH_BINDINGS_PATH=$POWERLINE_LOCATION/powerline/bindings/bash/
 
