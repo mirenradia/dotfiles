@@ -18,7 +18,9 @@ if [[ "$USE_PIPX" == "0" ]]; then
     POWERLINE_LOCATION=$(python3 -m pip show powerline-status 2>/dev/null | grep "Location:" | cut -f2 -d" ")
 else
     PIPX_LOCAL_VENVS=$(pipx environment --value PIPX_LOCAL_VENVS)
-    POWERLINE_LOCATION=${PIPX_LOCAL_VENVS}/powerline-status
+    PIPX_PYTHON_VERSION=$(pipx list | grep -E "powerline-status.*Python" | awk '{print $NF}')
+    PIPX_PYTHON_VERSION_MAJOR_MINOR=$(echo $PIPX_PYTHON_VERSION | cut -d'.' -f1,2)
+    POWERLINE_LOCATION=${PIPX_LOCAL_VENVS}/powerline-status/lib/python${PIPX_PYTHON_VERSION_MAJOR_MINOR}/site-packages/powerline
 fi
 POWERLINE_BASH_BINDINGS_PATH=$POWERLINE_LOCATION/powerline/bindings/bash/
 
