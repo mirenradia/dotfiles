@@ -18,7 +18,14 @@
 			{
 				"function": "powerline.segments.common.env.virtualenv",
 				"priority": 60
-			},        
+			},
+                        {
+                                "function": "powerline.segments.common.env.environment",
+                                "priority": 50,
+                                "args": {
+                                        "variable": "SPACK_ENV"
+                                }
+                        },
 			{
 				"function": "powerline.segments.shell.cwd",
 				"priority": 10
