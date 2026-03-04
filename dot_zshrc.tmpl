@@ -165,3 +165,7 @@ LMOD_COMPLETIONS=$LMOD_PKG/init/lmod_bash_completions
 
 # Make ls colors nice
 eval `dircolors ~/.dircolors`
+
+# Add VSCode Shell integration
+# See https://code.visualstudio.com/docs/terminal/shell-integration
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
