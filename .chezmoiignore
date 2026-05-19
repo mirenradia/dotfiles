@@ -15,7 +15,7 @@ install_ohmyzsh.sh
 {{- if not (or .myfedora .myubuntu) }}
 .local/etc/
 .ssh/config
-install_git-credential-kwallet.sh
+install_git-credential-libsecret.sh
 {{- end }}
 
 {{- if not .myfedora }}

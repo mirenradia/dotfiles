@@ -14,9 +14,9 @@
 {{- end }}
 [confidential]
 	helper = cache
-{{- if or .myubuntu .myfedora }}
+{{- if or .myfedora }}
 [credential]
-	helper = kwallet
+	helper = /usr/libexec/git-core/git-credential-libsecret
 {{- else }}
 [credential]
 	helper = cache --timeout=3600
