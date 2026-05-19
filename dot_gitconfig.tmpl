@@ -14,8 +14,13 @@
 {{- end }}
 [confidential]
 	helper = cache
+{{- if or .myubuntu .myfedora }}
+[credential]
+	helper = kwallet
+{{- else }}
 [credential]
 	helper = cache --timeout=3600
+{{- end }}
 [push]
 	default = simple
 [clangFormat]
