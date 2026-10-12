@@ -1,0 +1,85 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "rcs-llm": {
+      "options": {
+        "baseURL": "https://llm.hpc.cam.ac.uk/v1",
+        "apiKey": "{env:RCS_LLM_API_KEY}"
+      },
+      "models": {
+        "Qwen/Qwen3.8-27B-FP8": {
+          "name": "Qwen/Qwen3.8-27B-FP8",
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "variants": {
+            // Qwen3.8 only accepts low/medium/xhigh (xhigh is the server default).
+            // The first variant is what small_model uses, so low is listed first.
+            "low": { "reasoningEffort": "low" },
+            "medium": { "reasoningEffort": "medium" },
+            "xhigh": { "reasoningEffort": "xhigh" }
+          }
+        },
+        "Qwen/Qwen3.6-35B": {
+          "name": "Qwen/Qwen3.6-35B",
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "variants": {
+            "low": { "reasoningEffort": "low" },
+            "medium": { "reasoningEffort": "medium" },
+            "xhigh": { "reasoningEffort": "xhigh" }
+          }
+        },
+        "zai-org/GLM-5.3": {
+          "name": "zai-org/GLM-5.3",
+          "modalities": { "input": ["text"], "output": ["text"] },
+          "variants": {
+            // GLM-5.3 only distinguishes low/high/max (max is its default; other values coerce to max)
+            "max": { "reasoningEffort": "max" },
+            "low": { "reasoningEffort": "low" },
+            "high": { "reasoningEffort": "high" }
+          }
+        },
+        "moonshotai/Kimi-K3": {
+          "name": "moonshotai/Kimi-K3",
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "limit": {
+            "context": 524288,            // You can add context limits so you can see it in the UI
+            "output": 131072
+          },
+          "variants": {
+            // Kimi-K3 only accepts low/high/max (max is its default)
+            "max": { "reasoningEffort": "max" },
+            "low": { "reasoningEffort": "low" },
+            "high": { "reasoningEffort": "high" }
+          }
+        }
+      }
+    }
+  },
+  "small_model": "rcs-llm/Qwen/Qwen3.8-27B-FP8",
+  "permission": {
+    "questions": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "ls": "allow",
+    "bash": {
+      "*": "ask",
+      "git commit *": "ask",
+      "git push *": "deny",
+      "npm *": "allow",
+      "rm *": "ask",
+      "grep *": "allow",
+      "glob *": "allow",
+      "ls *": "allow",
+      "wc *": "allow",
+      "head *": "allow"
+    },    "grep": "allow",
+    "glob": "allow",
+    "list": "allow",
+    "edit": { "*": "allow" }
+  },
+  "experimental": {
+    "disable_paste_summary": true
+  },
+  "plugin": [
+    "opencode-multimodal"
+  ]
+}
